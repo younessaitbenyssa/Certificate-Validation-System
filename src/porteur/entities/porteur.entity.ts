@@ -1,4 +1,5 @@
-import { Entity,PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity,PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Certificat } from "src/certificat/entities/certificat.entity";
 
 @Entity()
 export class Porteur {
@@ -10,4 +11,6 @@ export class Porteur {
     email: string;
     @Column()
     telephone: number;
+    @OneToMany(() => Certificat, (Certificat) => Certificat.porteur)
+    certificates : Certificat[];
 }

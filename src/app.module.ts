@@ -23,7 +23,6 @@ import { InstitutionModule } from './institution/institution.module';
       entities:[Certificat,CodeQr, ImageCertificat, Porteur, Institution],
       synchronize:true,
       dropSchema:false
-      
     })
     ,CertificatModule, CodeQrModule, ImageCertificatModule, PorteurModule, InstitutionModule]
 })
