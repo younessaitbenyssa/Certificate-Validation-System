@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Certificat } from "src/certificat/entities/certificat.entity";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class ImageCertificat {
@@ -8,4 +9,8 @@ export class ImageCertificat {
     Url: string
     @Column()
     idCertificat: number
+
+    @OneToOne(()=>Certificat,certificat=>certificat.imageCertificat)
+    certificat:Certificat;
+
 }

@@ -4,7 +4,7 @@ import { CodeQr } from "src/code-qr/entities/code-qr.entity";
 
 @Entity()
 export class Certificat {
-    
+
     @PrimaryGeneratedColumn()
     id:number;
     @Column()

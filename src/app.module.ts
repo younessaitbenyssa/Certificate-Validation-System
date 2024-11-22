@@ -7,7 +7,6 @@ import { CodeQr } from './code-qr/entities/code-qr.entity';
 import { ImageCertificat } from './image-certificat/entities/image-certificat.entity';
 import { Porteur } from './porteur/entities/porteur.entity';
 import { Institution } from './institution/entities/institution.entity';
-import { ImageCertificatController } from './image-certificat/image-certificat.controller';
 import { ImageCertificatModule } from './image-certificat/image-certificat.module';
 import { PorteurModule } from './porteur/porteur.module';
 import { InstitutionModule } from './institution/institution.module';
