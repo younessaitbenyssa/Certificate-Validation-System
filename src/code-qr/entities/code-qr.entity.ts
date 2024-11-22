@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Certificat } from "src/certificat/entities/certificat.entity";
 
 @Entity()
 export class CodeQr {
@@ -8,5 +9,9 @@ export class CodeQr {
     codeUnique:number;
     @Column()
     image:string;
+
+    @OneToOne(() => Certificat, certificat => certificat.codeqr)
+    cerftificat : Certificat
+    
 
 }
