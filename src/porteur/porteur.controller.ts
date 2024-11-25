@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { PorteurService } from './porteur.service';
 import { CreatePorteurDto } from './dto/create-porteur.dto';
 import { UpdatePorteurDto } from './dto/update-porteur.dto';
@@ -14,21 +14,21 @@ export class PorteurController {
 
   @Get()
   findAll() {
-    return this.porteurService.findAll();
+    return this.porteurService.findAllPorteur();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.porteurService.findOne(+id);
+  findOne(@Param('id',ParseIntPipe) id: string) {
+    return this.porteurService.findPorteur(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePorteurDto: UpdatePorteurDto) {
-    return this.porteurService.update(+id, updatePorteurDto);
+  update(@Param('id',ParseIntPipe) id: string, @Body() updatePorteurDto: UpdatePorteurDto) {
+    return this.porteurService.updatePorteur(+id, updatePorteurDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id',ParseIntPipe) id: string) {
     return this.porteurService.remove(+id);
   }
 }

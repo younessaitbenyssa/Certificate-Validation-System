@@ -10,7 +10,7 @@ export class Porteur {
     @Column()
     email: string;
     @Column()
-    telephone: number;
+    telephone: string;
     @OneToMany(() => Certificat, (Certificat) => Certificat.porteur)
     certificates : Certificat[];
 }
