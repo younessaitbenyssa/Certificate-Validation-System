@@ -10,6 +10,7 @@ import { Institution } from './institution/entities/institution.entity';
 import { ImageCertificatModule } from './image-certificat/image-certificat.module';
 import { PorteurModule } from './porteur/porteur.module';
 import { InstitutionModule } from './institution/institution.module';
+import { UtilisateurModule } from './utilisateur/utilisateur.module';
 
 @Module({
   imports: [
@@ -24,6 +25,6 @@ import { InstitutionModule } from './institution/institution.module';
       synchronize:true,
       dropSchema:false
     })
-    ,CertificatModule, CodeQrModule, ImageCertificatModule, PorteurModule, InstitutionModule]
+    ,CertificatModule, CodeQrModule, ImageCertificatModule, PorteurModule, InstitutionModule, UtilisateurModule]
 })
 export class AppModule {}
