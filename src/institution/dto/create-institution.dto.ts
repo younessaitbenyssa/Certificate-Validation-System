@@ -4,6 +4,10 @@ export class CreateInstitutionDto {
 
     @IsNotEmpty()
     @IsString()
+    name : string;
+
+    @IsNotEmpty()
+    @IsString()
     adresse : string;
 
     @IsNotEmpty()
