@@ -14,6 +14,6 @@ export class Utilisateur {
     @Column()
     role:UtilisateurRole;
 
-    @OneToOne(()=>Porteur,porteur=>porteur.utilisateur)
+    @OneToOne(()=>Porteur,(porteur)=>porteur.utilisateur)
     porteur:Porteur
 }
