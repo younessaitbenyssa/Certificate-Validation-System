@@ -15,7 +15,7 @@ export class Porteur {
     @OneToMany(() => Certificat, (Certificat) => Certificat.porteur)
     certificates : Certificat[];
 
-    @OneToOne(()=>Utilisateur,utilisateur=>utilisateur.porteur)
+    @OneToOne(()=>Utilisateur,(utilisateur)=>utilisateur.porteur)
     @JoinColumn()
     utilisateur:Utilisateur;
 }
