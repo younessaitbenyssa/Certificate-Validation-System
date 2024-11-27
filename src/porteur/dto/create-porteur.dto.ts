@@ -1,4 +1,4 @@
-import { IsEmail, IsEmpty, IsNotEmpty, IsPhoneNumber } from "class-validator";
+import { IsEmail, IsNotEmpty, IsPhoneNumber } from "class-validator";
 
 export class CreatePorteurDto {
     id : number;

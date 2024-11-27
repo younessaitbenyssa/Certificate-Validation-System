@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateInstitutionDto } from './dto/create-institution.dto';
 import { UpdateInstitutionDto } from './dto/update-institution.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Institution } from './entities/institution.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class InstitutionService {
-  create(createInstitutionDto: CreateInstitutionDto) {
-    return 'This action adds a new institution';
+  constructor(
+    @InjectRepository(Institution)
+    private institutionRepository: Repository<Institution>,
+  ){}
+  async create(createInstitutionDto: CreateInstitutionDto): Promise<Institution> {
+    const newInstitution = await this.institutionRepository.create(createInstitutionDto);
+    return this.institutionRepository.save(newInstitution);
   }
 
-  findAll() {
-    return `This action returns all institution`;
+  async findAll(): Promise<Institution[]> {
+    return this.institutionRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} institution`;
+  async findOne(id: number): Promise<Institution | null> {
+    return this.institutionRepository.findOneBy({ id });
   }
 
-  update(id: number, updateInstitutionDto: UpdateInstitutionDto) {
-    return `This action updates a #${id} institution`;
+  async update(id: number, updateInstitutionDto: UpdateInstitutionDto) {
+    const Institut = await this.findOne(id);
+
+    if (!Institut){
+      throw new NotFoundException('Institution Not Found')
+    }
+
+    Object.assign(Institut, updateInstitutionDto);
+    return await this.institutionRepository.save(Institut);
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} institution`;
+  async remove(id: number): Promise<void> {
+    const institution = await this.findOne(id);
+    if (!institution){
+      throw new NotFoundException('Institution to delete is not found')
+    }
+    await this.institutionRepository.delete(id);
   }
 }

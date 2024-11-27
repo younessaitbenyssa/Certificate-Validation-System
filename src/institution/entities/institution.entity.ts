@@ -9,8 +9,8 @@ export class Institution {
     @Column()
     email: string;
     @Column()
-    telephone: number;
+    telephone: string;
 
     @OneToMany(()=>Certificat,certificat=>certificat.institution)
-    certificat:Certificat[]
+    certificat:Certificat[];
 }
