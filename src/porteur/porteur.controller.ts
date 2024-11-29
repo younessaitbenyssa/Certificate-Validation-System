@@ -1,12 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { PorteurService } from './porteur.service';
 import { CreatePorteurDto } from './dto/create-porteur.dto';
 import { UpdatePorteurDto } from './dto/update-porteur.dto';
-import { Roles } from 'src/roles.decorator';
-import { UtilisateurRole } from 'src/enums/utilisateur-role.enum';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Roles(UtilisateurRole.PORTEUR)
 @Controller('porteur')
+@UseGuards(AuthGuard)
 export class PorteurController {
   constructor(private readonly porteurService: PorteurService) {}
 

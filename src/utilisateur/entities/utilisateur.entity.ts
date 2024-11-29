@@ -22,12 +22,8 @@ export class Utilisateur {
     @Column()
     role:UtilisateurRole;
 
-    @Column()
-    telephone: string;
-    
-    @OneToOne(()=>Porteur,porteur=>porteur.utilisateur)
-    porteur:Porteur
-
-    @OneToOne (() => Institution, institution => institution.utilisateur)
-    institution: Institution;
+    @OneToOne(()=>Porteur,(porteur)=>porteur.utilisateur)
+    porteur:Porteur;
+    @OneToOne(()=>Institution,(institution)=>institution.utilisateur)
+    institution:Institution
 }

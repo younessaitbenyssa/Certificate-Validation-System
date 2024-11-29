@@ -6,11 +6,14 @@ import { Utilisateur } from "src/utilisateur/entities/utilisateur.entity";
 export class Porteur {
     @PrimaryGeneratedColumn()
     id : number;
-    
+    @Column()
+    nom_complet: string;
+    @Column()
+    telephone: string;
     @OneToMany(() => Certificat, (Certificat) => Certificat.porteur)
     certificates : Certificat[];
 
-    @OneToOne(()=>Utilisateur,utilisateur=>utilisateur.porteur)
+    @OneToOne(()=>Utilisateur,(utilisateur)=>utilisateur.porteur)
     @JoinColumn()
     utilisateur:Utilisateur;
 }

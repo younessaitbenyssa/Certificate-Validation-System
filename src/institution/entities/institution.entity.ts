@@ -8,11 +8,14 @@ export class Institution {
 
     @Column()
     adresse : string;
+    @Column()
+    telephone: string;
 
-    @OneToOne(() => Utilisateur, utilisateur=>utilisateur.institution)
-    @JoinColumn()
-    utilisateur:Utilisateur;
 
     @OneToMany(()=>Certificat,certificat=>certificat.institution)
     certificat:Certificat[];
+
+    @OneToOne(()=>Utilisateur,Utilisateur=>Utilisateur.institution)
+    @JoinColumn()
+    utilisateur:Utilisateur;
 }

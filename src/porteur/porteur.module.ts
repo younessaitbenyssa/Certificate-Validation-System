@@ -8,5 +8,6 @@ import { Porteur } from './entities/porteur.entity';
   imports:[TypeOrmModule.forFeature([Porteur])],
   controllers: [PorteurController],
   providers: [PorteurService],
+  exports:[PorteurService]
 })
 export class PorteurModule {}
