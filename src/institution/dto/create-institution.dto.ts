@@ -1,4 +1,6 @@
+import { Type } from "class-transformer";
 import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString } from "class-validator";
+import { CreateUtilisateurDto } from "src/utilisateur/dto/create-utilisateur.dto";
 
 export class CreateInstitutionDto {
 
@@ -9,10 +11,6 @@ export class CreateInstitutionDto {
     @IsNotEmpty()
     @IsString()
     adresse : string;
-
-    @IsNotEmpty()
-    @IsEmail()
-    email: string;
 
     @IsPhoneNumber()
     telephone: string;

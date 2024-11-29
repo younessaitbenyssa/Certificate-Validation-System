@@ -1,5 +1,6 @@
 import { Certificat } from 'src/certificat/entities/certificat.entity';
-import { Entity, Column, PrimaryGeneratedColumn, Long, OneToMany } from 'typeorm';
+import { Utilisateur } from 'src/utilisateur/entities/utilisateur.entity';
+import { Entity, Column, PrimaryGeneratedColumn, Long, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 @Entity()
 export class Institution {
     @PrimaryGeneratedColumn()
@@ -9,10 +10,12 @@ export class Institution {
     @Column()
     adresse : string;
     @Column()
-    email: string;
-    @Column()
     telephone: string;
 
     @OneToMany(()=>Certificat,certificat=>certificat.institution)
     certificat:Certificat[];
+
+    @OneToOne(()=>Utilisateur,Utilisateur=>Utilisateur.institution)
+    @JoinColumn()
+    utilisateur:Utilisateur;
 }

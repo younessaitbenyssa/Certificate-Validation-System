@@ -5,5 +5,6 @@ export class RegisterDto{
     adresse : string;
     email: string;
     telephone: string;
+    password:string;
     role:UtilisateurRole
 }

@@ -9,8 +9,6 @@ export class Porteur {
     @Column()
     nom_complet: string;
     @Column()
-    email: string;
-    @Column()
     telephone: string;
     @OneToMany(() => Certificat, (Certificat) => Certificat.porteur)
     certificates : Certificat[];

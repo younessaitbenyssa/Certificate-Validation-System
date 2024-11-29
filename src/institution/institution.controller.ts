@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { InstitutionService } from './institution.service';
 import { CreateInstitutionDto } from './dto/create-institution.dto';
 import { UpdateInstitutionDto } from './dto/update-institution.dto';
 import { Institution } from './entities/institution.entity';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('institution')
+@UseGuards(AuthGuard)
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
 
@@ -18,6 +20,7 @@ export class InstitutionController {
     return this.institutionService.findAll();
   }
 
+  
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.institutionService.findOne(id);

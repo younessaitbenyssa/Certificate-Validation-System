@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { PorteurService } from './porteur.service';
 import { CreatePorteurDto } from './dto/create-porteur.dto';
 import { UpdatePorteurDto } from './dto/update-porteur.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('porteur')
+@UseGuards(AuthGuard)
 export class PorteurController {
   constructor(private readonly porteurService: PorteurService) {}
 
