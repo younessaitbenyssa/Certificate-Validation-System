@@ -11,8 +11,12 @@ import { ImageCertificatModule } from './image-certificat/image-certificat.modul
 import { PorteurModule } from './porteur/porteur.module';
 import { InstitutionModule } from './institution/institution.module';
 import { UtilisateurModule } from './utilisateur/utilisateur.module';
+import { Utilisateur } from './utilisateur/entities/utilisateur.entity';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './roles/roles.guard';
 
 @Module({
+
   imports: [
     TypeOrmModule.forRoot({
       type:'mysql',
@@ -21,10 +25,16 @@ import { UtilisateurModule } from './utilisateur/utilisateur.module';
       username:'root',
       password:'',
       database:'certificat_validation',
-      entities:[Certificat,CodeQr, ImageCertificat, Porteur, Institution],
+      entities:[Certificat,CodeQr, ImageCertificat, Porteur, Institution, Utilisateur],
       synchronize:true,
       dropSchema:false
     })
-    ,CertificatModule, CodeQrModule, ImageCertificatModule, PorteurModule, InstitutionModule, UtilisateurModule]
+    ,CertificatModule, CodeQrModule, ImageCertificatModule, PorteurModule, InstitutionModule, UtilisateurModule],
+    providers: [
+      {
+        provide: APP_GUARD,
+        useClass: RolesGuard,
+      },
+    ]
 })
 export class AppModule {}

@@ -1,17 +1,17 @@
 import { Certificat } from 'src/certificat/entities/certificat.entity';
-import { Entity, Column, PrimaryGeneratedColumn, Long, OneToMany } from 'typeorm';
+import { Utilisateur } from 'src/utilisateur/entities/utilisateur.entity';
+import { Entity, Column, PrimaryGeneratedColumn, Long, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 @Entity()
 export class Institution {
     @PrimaryGeneratedColumn()
     id : number;
-    @Column()
-    name : string;
+
     @Column()
     adresse : string;
-    @Column()
-    email: string;
-    @Column()
-    telephone: string;
+
+    @OneToOne(() => Utilisateur, utilisateur=>utilisateur.institution)
+    @JoinColumn()
+    utilisateur:Utilisateur;
 
     @OneToMany(()=>Certificat,certificat=>certificat.institution)
     certificat:Certificat[];

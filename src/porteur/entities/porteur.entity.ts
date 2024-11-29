@@ -6,12 +6,7 @@ import { Utilisateur } from "src/utilisateur/entities/utilisateur.entity";
 export class Porteur {
     @PrimaryGeneratedColumn()
     id : number;
-    @Column()
-    nom_complet: string;
-    @Column()
-    email: string;
-    @Column()
-    telephone: string;
+    
     @OneToMany(() => Certificat, (Certificat) => Certificat.porteur)
     certificates : Certificat[];
 

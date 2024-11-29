@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from 
 import { PorteurService } from './porteur.service';
 import { CreatePorteurDto } from './dto/create-porteur.dto';
 import { UpdatePorteurDto } from './dto/update-porteur.dto';
+import { Roles } from 'src/roles.decorator';
+import { UtilisateurRole } from 'src/enums/utilisateur-role.enum';
 
+@Roles(UtilisateurRole.PORTEUR)
 @Controller('porteur')
 export class PorteurController {
   constructor(private readonly porteurService: PorteurService) {}
