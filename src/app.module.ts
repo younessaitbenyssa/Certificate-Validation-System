@@ -13,8 +13,16 @@ import { InstitutionModule } from './institution/institution.module';
 import { UtilisateurModule } from './utilisateur/utilisateur.module';
 import { Utilisateur } from './utilisateur/entities/utilisateur.entity';
 import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './roles/roles.guard';
 
 @Module({
+
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },],
 
   imports: [
     TypeOrmModule.forRoot({

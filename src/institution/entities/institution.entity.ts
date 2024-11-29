@@ -10,7 +10,8 @@ export class Institution {
     adresse : string;
     @Column()
     telephone: string;
-
+    @Column()
+    name: string
 
     @OneToMany(()=>Certificat,certificat=>certificat.institution)
     certificat:Certificat[];
