@@ -5,10 +5,9 @@ import { UpdatePorteurDto } from './dto/update-porteur.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { UtilisateurRole } from 'src/enums/utilisateur-role.enum';
 import { Roles } from 'src/roles.decorator';
-
+import { RolesGuard } from 'src/roles/roles.guard';
 
 @Controller('porteur')
-@UseGuards(AuthGuard)
 export class PorteurController {
   constructor(private readonly porteurService: PorteurService) {}
 
@@ -16,7 +15,9 @@ export class PorteurController {
   create(@Body() createPorteurDto: CreatePorteurDto) {
     return this.porteurService.create(createPorteurDto);
   }
-
+  
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(UtilisateurRole.PORTEUR)
   @Get()
   findAll() {
     return this.porteurService.findAllPorteur();
@@ -24,6 +25,7 @@ export class PorteurController {
 
 
 
+  @UseGuards(AuthGuard,RolesGuard)
   @Roles(UtilisateurRole.PORTEUR)
   @Get(':id')
   findOne(@Param('id',ParseIntPipe) id: string) {

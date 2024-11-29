@@ -21,8 +21,11 @@ export class AuthGuard implements CanActivate {
                 secret: jwtConstants.secret
               }
             );
+
+            console.log("Decoded payload:", payload);
             request['user'] = payload;
-          } catch {
+          } catch (error){
+            console.error("Error verifying token:", error.message);
             throw new UnauthorizedException();
           }
           return true;
