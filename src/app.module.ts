@@ -18,11 +18,11 @@ import { RolesGuard } from './roles/roles.guard';
 
 @Module({
 
-  /* providers: [
+  /*  providers: [
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
-    },], */
+    },],  */
 
   imports: [
     TypeOrmModule.forRoot({

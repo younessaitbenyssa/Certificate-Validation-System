@@ -7,25 +7,24 @@ import { UtilisateurRole } from 'src/enums/utilisateur-role.enum';
 import { Roles } from 'src/roles.decorator';
 import { RolesGuard } from 'src/roles/roles.guard';
 
+@UseGuards(AuthGuard,RolesGuard)
+
 @Controller('porteur')
 export class PorteurController {
   constructor(private readonly porteurService: PorteurService) {}
+
 
   @Post()
   create(@Body() createPorteurDto: CreatePorteurDto) {
     return this.porteurService.create(createPorteurDto);
   }
-  
-  @UseGuards(AuthGuard,RolesGuard)
-  @Roles(UtilisateurRole.PORTEUR)
+
+  @Roles(UtilisateurRole.INSTITUTION)
   @Get()
   findAll() {
     return this.porteurService.findAllPorteur();
   }
 
-
-
-  @UseGuards(AuthGuard,RolesGuard)
   @Roles(UtilisateurRole.PORTEUR)
   @Get(':id')
   findOne(@Param('id',ParseIntPipe) id: string) {
