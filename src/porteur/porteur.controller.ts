@@ -14,15 +14,19 @@ import { RolesGuard } from 'src/roles/roles.guard';
 export class PorteurController {
   constructor(private readonly porteurService: PorteurService) {}
 
+
   @Post()
   create(@Body() createPorteurDto: CreatePorteurDto) {
     return this.porteurService.create(createPorteurDto);
   }
 
+  @Roles(UtilisateurRole.INSTITUTION)
   @Get()
   findAll() {
     return this.porteurService.findAllPorteur();
   }
+
+  @Roles(UtilisateurRole.PORTEUR)
 
   
   @Get(':id')

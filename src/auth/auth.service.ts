@@ -30,12 +30,8 @@ export class AuthService {
         if(!await bcrypt.compare(utilisateur.password, user.password))
             throw new UnauthorizedException();
 
-        const payload = {sub:user.id,email:user.email,Roles:user.role}
-        console.log(process.env.JWT_SECRET)
-        console.log(payload);
-
-        
-        
+        const roles = Array.isArray(user.role) ? user.role : [user.role];
+        const payload = {sub:user.id,email:user.email,roles}
         return{'access-token':await this.jwtService.signAsync(payload)}
 
     }

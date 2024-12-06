@@ -20,6 +20,11 @@ import { JwtModule } from '@nestjs/jwt';
 
 @Module({
 
+  /*  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },],  */
 
   imports: [
     TypeOrmModule.forRoot({
