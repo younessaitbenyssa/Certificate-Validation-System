@@ -13,16 +13,13 @@ import { InstitutionModule } from './institution/institution.module';
 import { UtilisateurModule } from './utilisateur/utilisateur.module';
 import { Utilisateur } from './utilisateur/entities/utilisateur.entity';
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './roles/roles.guard';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import config from './config/config';
+import { JwtModule } from '@nestjs/jwt';
+
 
 @Module({
 
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },],
 
   imports: [
     TypeOrmModule.forRoot({
@@ -36,6 +33,21 @@ import { RolesGuard } from './roles/roles.guard';
       synchronize:true,
       dropSchema:false
     })
-    ,CertificatModule, CodeQrModule, ImageCertificatModule, PorteurModule, InstitutionModule, UtilisateurModule, AuthModule]
+    ,CertificatModule, CodeQrModule, ImageCertificatModule, PorteurModule, InstitutionModule, UtilisateurModule, AuthModule,
+    ConfigModule.forRoot({
+      cache : true,
+      isGlobal: true,
+      load: [config]
+    }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => ({
+        secret: config.get('jwt.secret'),
+        signOptions: { expiresIn: config.get('jwt.expiresIn') },
+      }),
+      global: true,
+      inject : [ConfigService]
+    }),
+  ]
 })
 export class AppModule {}

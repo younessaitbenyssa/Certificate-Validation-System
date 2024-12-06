@@ -5,10 +5,12 @@ import { UpdatePorteurDto } from './dto/update-porteur.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { UtilisateurRole } from 'src/enums/utilisateur-role.enum';
 import { Roles } from 'src/roles.decorator';
+import { RolesGuard } from 'src/roles/roles.guard';
 
-
+@UseGuards(AuthGuard,RolesGuard)
+@Roles(UtilisateurRole.PORTEUR)
 @Controller('porteur')
-@UseGuards(AuthGuard)
+
 export class PorteurController {
   constructor(private readonly porteurService: PorteurService) {}
 
@@ -22,21 +24,19 @@ export class PorteurController {
     return this.porteurService.findAllPorteur();
   }
 
-
-
-  @Roles(UtilisateurRole.PORTEUR)
+  
   @Get(':id')
   findOne(@Param('id',ParseIntPipe) id: string) {
     return this.porteurService.findPorteur(+id);
   }
 
   @Patch(':id')
-  update(@Param('id',ParseIntPipe) id: string, @Body() updatePorteurDto: UpdatePorteurDto) {
-    return this.porteurService.updatePorteur(+id, updatePorteurDto);
+  update(@Param('id',ParseIntPipe) id: number, @Body() updatePorteurDto: UpdatePorteurDto) {
+    return this.porteurService.updatePorteur(id, updatePorteurDto);
   }
 
   @Delete(':id')
-  remove(@Param('id',ParseIntPipe) id: string) {
-    return this.porteurService.remove(+id);
+  remove(@Param('id',ParseIntPipe) id: number) {
+    return this.porteurService.remove(id);
   }
 }

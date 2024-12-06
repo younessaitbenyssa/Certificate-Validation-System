@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InstitutionController } from './institution.controller';
 import { InstitutionService } from './institution.service';
+import { RolesGuard } from 'src/roles/roles.guard';
 
 describe('InstitutionController', () => {
   let controller: InstitutionController;

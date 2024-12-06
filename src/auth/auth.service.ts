@@ -12,6 +12,8 @@ import { CreateInstitutionDto } from 'src/institution/dto/create-institution.dto
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Porteur } from 'src/porteur/entities/porteur.entity';
+import * as bcrypt from 'bcrypt';
+import { config } from 'process';
 
 @Injectable()
 export class AuthService {
@@ -25,10 +27,15 @@ export class AuthService {
         const user = await this.utilisateurService.findByEmail(utilisateur.email);
         if(!user)
             throw new NotFoundException("Utilisateur Not Found! ");
-        if(user.password!=utilisateur.password)
+        if(!await bcrypt.compare(utilisateur.password, user.password))
             throw new UnauthorizedException();
 
-        const payload = {sub:user.id,email:user.email,role:user.role}
+        const payload = {sub:user.id,email:user.email,Roles:user.role}
+        console.log(process.env.JWT_SECRET)
+        console.log(payload);
+
+        
+        
         return{'access-token':await this.jwtService.signAsync(payload)}
 
     }
@@ -36,7 +43,7 @@ export class AuthService {
     async signUp(register:RegisterDto):Promise<CreateUtilisateurDto>{
         const utilisateurDto = new CreateUtilisateurDto()
         utilisateurDto.email=register.email;
-        utilisateurDto.password=register.password;
+        utilisateurDto.password = await bcrypt.hash(register.password, 10);
         utilisateurDto.role = register.role;
         const utilisateur = await this.utilisateurService.create(utilisateurDto);
         if(register.role===UtilisateurRole.PORTEUR){
@@ -46,7 +53,7 @@ export class AuthService {
             porteur.utilisateur = utilisateur;
             await this.porteurRepository.save(porteur);
         }
-        else if(register.role===UtilisateurRole.INSTITUTION){
+        else if(register.role === UtilisateurRole.INSTITUTION){
             const institution = new Institution();
             institution.name = register.name;
             institution.adresse = register.adresse;

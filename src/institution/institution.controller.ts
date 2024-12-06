@@ -6,10 +6,12 @@ import { Institution } from './entities/institution.entity';
 import { Roles } from 'src/roles.decorator';
 import { UtilisateurRole } from 'src/enums/utilisateur-role.enum';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { RolesGuard } from 'src/roles/roles.guard';
 
+
+@UseGuards(AuthGuard,RolesGuard)
 @Roles(UtilisateurRole.INSTITUTION)
 @Controller('institution')
-@UseGuards(AuthGuard)
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
 
@@ -18,12 +20,12 @@ export class InstitutionController {
     return this.institutionService.create(createInstitutionDto);
   }
 
+  
   @Get()
   findAll(): Promise<Institution[]> {
     return this.institutionService.findAll();
   }
 
-  
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.institutionService.findOne(id);
