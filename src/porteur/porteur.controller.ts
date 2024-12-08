@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards, ValidationPipe } from '@nestjs/common';
 import { PorteurService } from './porteur.service';
 import { CreatePorteurDto } from './dto/create-porteur.dto';
 import { UpdatePorteurDto } from './dto/update-porteur.dto';
@@ -16,7 +16,7 @@ export class PorteurController {
 
 
   @Post()
-  create(@Body() createPorteurDto: CreatePorteurDto) {
+  create(@Body(ValidationPipe) createPorteurDto: CreatePorteurDto) {
     return this.porteurService.create(createPorteurDto);
   }
 
@@ -25,13 +25,10 @@ export class PorteurController {
   findAll() {
     return this.porteurService.findAllPorteur();
   }
-
-  @Roles(UtilisateurRole.PORTEUR)
-
   
   @Get(':id')
-  findOne(@Param('id',ParseIntPipe) id: string) {
-    return this.porteurService.findPorteur(+id);
+  findOne(@Param('id',ParseIntPipe) id: number) {
+    return this.porteurService.findPorteur(id);
   }
 
   @Patch(':id')

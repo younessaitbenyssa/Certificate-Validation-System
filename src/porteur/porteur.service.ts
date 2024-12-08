@@ -10,7 +10,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 export class PorteurService {
 
   constructor(
-    @InjectRepository(Porteur) private readonly porteurRepository:Repository<Porteur>
+    @InjectRepository(Porteur) private readonly porteurRepository: Repository<Porteur>
   ){}
 
   async create(createPorteurDto: CreatePorteurDto):Promise<Porteur> {
@@ -18,7 +18,9 @@ export class PorteurService {
   }
 
   async findAllPorteur():Promise<Porteur[]> {
-    return this.porteurRepository.find();
+    return this.porteurRepository.find({
+      relations : ['certificates.institution'] // we can use that or we can do that also : relations:{certificates : {institution:true}}
+    });
   }
 
   async findPorteur(id: number):Promise<Porteur> {
@@ -37,7 +39,7 @@ export class PorteurService {
 
   async remove(id: number):Promise<{ message: string }> {
     const result = await this.porteurRepository.delete(id)
-    if(result.affected===0)
+    if(result.affected === 0)
       throw new NotFoundException("Porteur Not Found !")
     return { message: `Porteur with ID ${id} successfully deleted` };
 
