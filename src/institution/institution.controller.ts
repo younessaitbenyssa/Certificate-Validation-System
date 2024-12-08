@@ -22,8 +22,6 @@ export class InstitutionController {
   }
 
   
-
-  
   @Get()
   findAll(): Promise<Institution[]> {
     return this.institutionService.findAll();

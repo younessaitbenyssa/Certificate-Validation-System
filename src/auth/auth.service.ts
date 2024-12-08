@@ -4,8 +4,6 @@ import { CreateUtilisateurDto } from './../utilisateur/dto/create-utilisateur.dt
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UtilisateurRole } from 'src/enums/utilisateur-role.enum';
-import { CreatePorteurDto } from 'src/porteur/dto/create-porteur.dto';
-import { PorteurService } from 'src/porteur/porteur.service';
 import { RegisterDto } from 'src/utilisateur/dto/register-utilisateur.dto';
 import { UtilisateurService } from 'src/utilisateur/utilisateur.service';
 import { CreateInstitutionDto } from 'src/institution/dto/create-institution.dto';
@@ -33,19 +31,18 @@ export class AuthService {
         const roles = Array.isArray(user.role) ? user.role : [user.role];
         const payload = {sub:user.id,email:user.email,roles}
         return{'access-token':await this.jwtService.signAsync(payload)}
-
     }
 
     async signUp(register:RegisterDto):Promise<CreateUtilisateurDto>{
         const utilisateurDto = new CreateUtilisateurDto()
-        utilisateurDto.email=register.email;
+        utilisateurDto.email = register.email;
         utilisateurDto.password = await bcrypt.hash(register.password, 10);
         utilisateurDto.role = register.role;
         const utilisateur = await this.utilisateurService.create(utilisateurDto);
-        if(register.role===UtilisateurRole.PORTEUR){
+        if(register.role === UtilisateurRole.PORTEUR){
             const porteur = new Porteur();
-            porteur.nom_complet = register.name;
-            porteur.telephone=register.telephone;
+            porteur.name = register.name;
+            porteur.telephone = register.telephone;
             porteur.utilisateur = utilisateur;
             await this.porteurRepository.save(porteur);
         }

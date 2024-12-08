@@ -8,10 +8,6 @@ export class CodeQr {
     @Column()
     codeUnique:number;
     @Column()
-    image:string;
-
-    @OneToOne(() => Certificat, certificat => certificat.codeqr)
-    cerftificat : Certificat
-    
+    image:string;    
 
 }

@@ -7,10 +7,9 @@ import { Institution } from "src/institution/entities/institution.entity";
 @Entity()
 export class Certificat {
 
-    @PrimaryGeneratedColumn()
-    id:number;
-    @Column()
-    nom:string;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+    
     @Column()
     dateEmission:Date;
 
@@ -18,9 +17,6 @@ export class Certificat {
     @JoinColumn()
     porteur : Porteur;
 
-    @OneToOne(() => CodeQr, codeqr => codeqr.cerftificat)
-    @JoinColumn()
-    codeqr: CodeQr;
     @ManyToOne(()=>Institution,institution=>institution.certificat)
     @JoinColumn()
     institution:Institution

@@ -1,12 +1,11 @@
-import { Type } from "class-transformer";
-import { IsEmail, IsNotEmpty, IsPhoneNumber } from "class-validator";
-import { CreateUtilisateurDto } from "src/utilisateur/dto/create-utilisateur.dto";
+import { IsNotEmpty, IsPhoneNumber } from "class-validator";
 
 export class CreatePorteurDto {
-    id : number;
+
+    CIN:number
 
     @IsNotEmpty()
-    nom_complet: string;
+    name: string;
 
     @IsPhoneNumber()
     telephone: string;

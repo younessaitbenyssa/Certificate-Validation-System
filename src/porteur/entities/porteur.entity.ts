@@ -5,12 +5,16 @@ import { Utilisateur } from "src/utilisateur/entities/utilisateur.entity";
 @Entity()
 export class Porteur {
     @PrimaryGeneratedColumn()
-    id : number;
+    id:number
+
     @Column()
-    nom_complet: string;
+    name: string;
+
+
     @Column()
     telephone: string;
-    @OneToMany(() => Certificat, (Certificat) => Certificat.porteur)
+
+    @OneToMany(() => Certificat, (Certificat) => Certificat.porteur, {eager:true})
     certificates : Certificat[];
 
     @OneToOne(()=>Utilisateur,(utilisateur)=>utilisateur.porteur)

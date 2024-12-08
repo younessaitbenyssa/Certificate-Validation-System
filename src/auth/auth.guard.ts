@@ -1,7 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import config from 'src/config/config';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -24,8 +22,6 @@ export class AuthGuard implements CanActivate {
                 secret: process.env.JWT_SECRET
               }
             );
-
-            console.log("Decoded payload:", payload);
             request['user'] = payload;
           } catch (error){
             console.error("Error verifying token:", error.message);

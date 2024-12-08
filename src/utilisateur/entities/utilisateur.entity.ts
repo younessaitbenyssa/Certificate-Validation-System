@@ -10,20 +10,19 @@ export class Utilisateur {
     @PrimaryGeneratedColumn()
     id:number;
 
-    @Column()
-    name: string;
+    @Column({unique:true})
+    email:string;
 
     @Column()
     password:string;
 
-    @Column()
-    email:string;
 
     @Column()
     role:UtilisateurRole;
 
     @OneToOne(()=>Porteur,(porteur)=>porteur.utilisateur)
     porteur:Porteur;
+    
     @OneToOne(()=>Institution,(institution)=>institution.utilisateur)
     institution:Institution
 }

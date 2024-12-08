@@ -8,8 +8,10 @@ export class Institution {
 
     @Column()
     adresse : string;
+    
     @Column()
     telephone: string;
+
     @Column()
     name: string
 
