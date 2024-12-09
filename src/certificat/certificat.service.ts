@@ -18,7 +18,7 @@ export class CertificatService {
   ){}
   async create(createCertificatDto: CreateCertificatDto): Promise<Certificat> {
     const certeficat = this.certeficatRepository.create(createCertificatDto);
-    const porteur = await this.porteurService.findPorteur(createCertificatDto.porteurId)
+    const porteur = await this.porteurService.findPorteur(createCertificatDto.CIN)
     const institution = await this.instService.findOne(createCertificatDto.institutionId)
     certeficat.porteur = porteur;
     certeficat.institution = institution;
@@ -27,7 +27,7 @@ export class CertificatService {
 
   async findAll() : Promise<Certificat[]> {
     return await this.certeficatRepository.find({
-      relations: ['porteur', 'institution'],
+      relations: ["porteur","institution"]
     });
   }
 

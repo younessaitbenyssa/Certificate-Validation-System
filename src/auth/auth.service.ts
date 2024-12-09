@@ -16,6 +16,7 @@ import { config } from 'process';
 @Injectable()
 export class AuthService {
     constructor(private utilisateurService:UtilisateurService,
+        private institutionService:InstitutionService,
         @InjectRepository(Institution) private institutionRepository: Repository<Institution>,
         @InjectRepository(Porteur) private porteurRepository: Repository<Porteur>,
         private jwtService:JwtService,
@@ -42,9 +43,15 @@ export class AuthService {
         if(register.role === UtilisateurRole.PORTEUR){
             const porteur = new Porteur();
             porteur.name = register.name;
+            porteur.CIN = register.CIN;
             porteur.telephone = register.telephone;
             porteur.utilisateur = utilisateur;
-            await this.porteurRepository.save(porteur);
+            const porteurCreated = await this.porteurRepository.create(porteur);
+            const institution = await this.institutionService.findOne(register.institutionId);
+            if(porteurCreated)
+                institution.porteurs.push(porteurCreated);
+            await this.porteurRepository.save(porteurCreated);
+            await this.institutionRepository.save(institution);
         }
         else if(register.role === UtilisateurRole.INSTITUTION){
             const institution = new Institution();

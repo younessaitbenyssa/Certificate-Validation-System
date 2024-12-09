@@ -10,6 +10,9 @@ export class Certificat {
     id: string;
     
     @Column()
+    nom:string
+
+    @Column()
     dateEmission:Date;
 
     @ManyToOne(() => Porteur, (porteur) => porteur.certificates)

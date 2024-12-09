@@ -4,12 +4,14 @@ import { UpdateInstitutionDto } from './dto/update-institution.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Institution } from './entities/institution.entity';
 import { Repository } from 'typeorm';
+import { PorteurService } from 'src/porteur/porteur.service';
 
 @Injectable()
 export class InstitutionService {
   constructor(
     @InjectRepository(Institution)
     private institutionRepository: Repository<Institution>,
+    private porteurService:PorteurService,
   ){}
   async create(createInstitutionDto: CreateInstitutionDto): Promise<Institution> {
     const newInstitution = await this.institutionRepository.create(createInstitutionDto);
@@ -17,11 +19,17 @@ export class InstitutionService {
   }
 
   async findAll(): Promise<Institution[]> {
-    return this.institutionRepository.find();
+    return this.institutionRepository.find({relations:["porteurs"]});
   }
 
-  async findOne(id: number): Promise<Institution | null> {
-    return this.institutionRepository.findOneBy({ id });
+  async findOne(id: number): Promise<Institution> {
+    const institution = await this.institutionRepository.findOne({
+      where:{id},
+      relations:['porteurs'],
+    });
+    if(!institution)
+      throw new NotFoundException("Institution Not Found")
+    return institution
   }
 
   async update(id: number, updateInstitutionDto: UpdateInstitutionDto) {
@@ -43,4 +51,13 @@ export class InstitutionService {
     }
     await this.institutionRepository.delete(id);
   }
+
+  async addPorteurToInstitution(cin:string,institutionId:number):Promise<void>{
+    const porteur = await this.porteurService.findPorteur(cin);
+    const institution = await this.findOne(institutionId);
+    institution.porteurs.push(porteur);
+    await this.institutionRepository.save(institution);
+
+  }
+
 }

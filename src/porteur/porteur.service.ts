@@ -19,29 +19,30 @@ export class PorteurService {
 
   async findAllPorteur():Promise<Porteur[]> {
     return this.porteurRepository.find({
-      relations :  ['certificates','certificates.institution']  // we can use that or we can do that also : ['certificates.institution'] 
+      relations : ['certificates'] // we can use that or we can do that also : relations:{certificates : {institution:true}}
     });
   }
 
-  async findPorteur(id: number):Promise<Porteur> {
-    const porteur = await this.porteurRepository.findOne({where:{id}})
+  async findPorteur(CIN: string):Promise<Porteur> {
+    const porteur = await this.porteurRepository.findOne({where:{CIN},
+    relations:['certificates']})
     if (!porteur) {
-      throw new NotFoundException(`Porteur with ID ${id} not found`);
+      throw new NotFoundException(`Porteur not found`);
     }
     return porteur;
   }
 
-  async updatePorteur(id: number, updatePorteurDto: UpdatePorteurDto):Promise<Porteur> {
-    const porteur = await this.findPorteur(id);
-    await this.porteurRepository.update(id,updatePorteurDto);
-    return this.porteurRepository.findOne({where:{id}});
+  async updatePorteur(CIN:string, updatePorteurDto: UpdatePorteurDto):Promise<Porteur> {
+    const porteur = await this.findPorteur(CIN);
+    await this.porteurRepository.update(CIN,updatePorteurDto);
+    return this.porteurRepository.findOne({where:{CIN}});
   }
 
-  async remove(id: number):Promise<{ message: string }> {
-    const result = await this.porteurRepository.delete(id)
+  async remove(CIN:string):Promise<{ message: string }> {
+    const result = await this.porteurRepository.delete(CIN)
     if(result.affected === 0)
       throw new NotFoundException("Porteur Not Found !")
-    return { message: `Porteur with ID ${id} successfully deleted` };
+    return { message: `Porteursuccessfully deleted` };
 
   }
 }
