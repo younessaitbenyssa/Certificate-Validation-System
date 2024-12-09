@@ -1,6 +1,5 @@
-import { Code, Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Porteur } from "src/porteur/entities/porteur.entity";
-import { CodeQr } from "src/code-qr/entities/code-qr.entity";
 import { ImageCertificat } from "src/image-certificat/entities/image-certificat.entity";
 import { Institution } from "src/institution/entities/institution.entity";
 

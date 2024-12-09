@@ -27,20 +27,14 @@ export class CertificatService {
 
   async findAll() : Promise<Certificat[]> {
     return await this.certeficatRepository.find({
-      relations: {
-        porteur : true,
-        institution: true
-      }
+      relations: ['porteur', 'institution'],
     });
   }
 
   async findOne(id: string): Promise<Certificat> {
     const certeficat = await this.certeficatRepository.findOne({
       where: {id},
-      relations: {
-        porteur: true,
-        institution: true
-      }
+      relations: ['porteur', 'institution'],
     });
     if (!certeficat)
        throw new NotFoundException("Certificat Not Found")

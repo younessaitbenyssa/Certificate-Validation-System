@@ -14,7 +14,7 @@ export class Porteur {
     @Column()
     telephone: string;
 
-    @OneToMany(() => Certificat, (Certificat) => Certificat.porteur, {eager:true})
+    @OneToMany(() => Certificat, (Certificat) => Certificat.porteur)
     certificates : Certificat[];
 
     @OneToOne(()=>Utilisateur,(utilisateur)=>utilisateur.porteur)
