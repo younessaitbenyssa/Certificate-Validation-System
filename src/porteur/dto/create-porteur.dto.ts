@@ -1,8 +1,9 @@
-import { IsNotEmpty, IsPhoneNumber } from "class-validator";
+import { IsNotEmpty, IsPhoneNumber, IsString } from "class-validator";
 
 export class CreatePorteurDto {
 
-    CIN:number
+    @IsString()
+    CIN:string;
 
     @IsNotEmpty()
     name: string;

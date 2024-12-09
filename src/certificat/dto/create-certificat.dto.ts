@@ -1,15 +1,17 @@
 import { Type } from "class-transformer";
-import { IsDate, IsNumber } from "class-validator";
+import { IsDate, IsNumber, IsString } from "class-validator";
 
 export class CreateCertificatDto {
 
+    @IsString()
+    nom:string;
 
     @IsDate()
     @Type(() => Date)
     dateEmission:Date;
 
-    @IsNumber()
-    porteurId: number
+    @IsString()
+    CIN: string
 
     @IsNumber()
     institutionId: number

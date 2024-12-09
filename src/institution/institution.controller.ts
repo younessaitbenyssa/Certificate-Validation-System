@@ -10,8 +10,8 @@ import { RolesGuard } from 'src/roles/roles.guard';
 
 
 
-@UseGuards(AuthGuard,RolesGuard)
-@Roles(UtilisateurRole.INSTITUTION)
+/* @UseGuards(AuthGuard,RolesGuard)
+@Roles(UtilisateurRole.INSTITUTION) */
 @Controller('institution')
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
@@ -41,7 +41,12 @@ export class InstitutionController {
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.institutionService.remove(id);
+  }
+
+  @Post(":cin/:id")
+  addPorteurToInstitution(@Param('cin') cin:string,@Param('id',ParseIntPipe) id:number){
+    return this.institutionService.addPorteurToInstitution(cin,id);
   }
 }
