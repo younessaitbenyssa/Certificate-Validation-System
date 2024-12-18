@@ -6,6 +6,9 @@ import { Certificat } from './entities/certificat.entity';
 import { Repository } from 'typeorm';
 import { PorteurService } from 'src/porteur/porteur.service';
 import { InstitutionService } from 'src/institution/institution.service';
+import * as QRCode from 'qrcode';
+import { createCanvas, loadImage } from 'canvas';
+import { writeFileSync } from 'fs';
 
 @Injectable()
 export class CertificatService {
@@ -22,7 +25,9 @@ export class CertificatService {
     const institution = await this.instService.findOne(createCertificatDto.institutionId)
     certeficat.porteur = porteur;
     certeficat.institution = institution;
-    return await this.certeficatRepository.save(certeficat);
+    const  savedCertificate = await this.certeficatRepository.save(certeficat);
+    this.generateImageCertificate(savedCertificate);
+    return savedCertificate;
   }
 
   async findAll() : Promise<Certificat[]> {
@@ -58,4 +63,37 @@ export class CertificatService {
     await this.certeficatRepository.delete(id)
     return {message: `the certeficat has been deleted successfully`}
   }
+
+  async generateImageCertificate(certificate:Certificat):Promise<any>{
+    const qrCodeImage = await QRCode.toDataURL(certificate.id);
+    const canvasWidth = 800;
+    const canvasHeight = 600;
+    const canvas = createCanvas(canvasWidth,canvasHeight);
+    const ctx = canvas.getContext('2d')
+    
+    
+     ctx.fillStyle = '#ffffff';
+     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+ 
+   
+     ctx.fillStyle = '#000000';
+     ctx.font = 'bold 28px Arial';
+     ctx.fillText('Certificate of Completion', 200, 50);
+ 
+     
+     ctx.font = '18px Arial';
+     ctx.fillText(`Name: ${certificate.porteur.name}`, 50, 150);
+     ctx.fillText(`Institution: ${certificate.institution.name}`, 50, 200);
+     ctx.fillText(`Date of Issue: ${certificate.dateEmission}`, 50, 250);
+ 
+     // Step 6: Add QR Code
+     const qrImage = await loadImage(qrCodeImage);
+     ctx.drawImage(qrImage, 600, 400, 150, 150);
+ 
+     const filePath = `./certificates/${certificate.id}.png`;
+     writeFileSync(filePath, canvas.toBuffer('image/png'));
+ 
+
+  }
+
 }
