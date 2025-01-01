@@ -5,8 +5,10 @@ import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 export class ImageCertificat {
     @PrimaryGeneratedColumn()
     id: number
+    
     @Column()
     Url: string
+
     @Column()
     idCertificat: number
 

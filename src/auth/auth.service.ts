@@ -1,7 +1,7 @@
 import { Institution } from 'src/institution/entities/institution.entity';
 import { InstitutionService } from './../institution/institution.service';
 import { CreateUtilisateurDto } from './../utilisateur/dto/create-utilisateur.dto';
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException, Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UtilisateurRole } from 'src/enums/utilisateur-role.enum';
 import { RegisterDto } from 'src/utilisateur/dto/register-utilisateur.dto';
@@ -11,7 +11,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Porteur } from 'src/porteur/entities/porteur.entity';
 import * as bcrypt from 'bcrypt';
-import { config } from 'process';
+import { ConfigType } from '@nestjs/config';
+import refreshJwtConfig from 'src/config/refresh-jwt.config';
+
 
 @Injectable()
 export class AuthService {
@@ -19,10 +21,11 @@ export class AuthService {
         private institutionService:InstitutionService,
         @InjectRepository(Institution) private institutionRepository: Repository<Institution>,
         @InjectRepository(Porteur) private porteurRepository: Repository<Porteur>,
+        @Inject(refreshJwtConfig.KEY) private refreshTokenConfig:ConfigType<typeof refreshJwtConfig>,
         private jwtService:JwtService,
     ){}
 
-    async signIn(utilisateur:CreateUtilisateurDto):Promise<{'access-token':string}>{
+    async signIn(utilisateur:CreateUtilisateurDto):Promise<{'access-token':string, 'refreshToken':string}>{
         const user = await this.utilisateurService.findByEmail(utilisateur.email);
         if(!user)
             throw new NotFoundException("Utilisateur Not Found! ");
@@ -31,7 +34,11 @@ export class AuthService {
 
         const roles = Array.isArray(user.role) ? user.role : [user.role];
         const payload = {sub:user.id,email:user.email,roles}
-        return{'access-token':await this.jwtService.signAsync(payload)}
+        const refreshToken = this.jwtService.sign(payload, this.refreshTokenConfig)
+        return{
+            'access-token':await this.jwtService.signAsync(payload),
+            'refreshToken': await this.jwtService.signAsync(payload, this.refreshTokenConfig)
+        }
     }
 
     async signUp(register:RegisterDto):Promise<CreateUtilisateurDto>{
@@ -46,6 +53,7 @@ export class AuthService {
             porteur.CIN = register.CIN;
             porteur.telephone = register.telephone;
             porteur.utilisateur = utilisateur;
+            console.log("here is the porteur" + porteur.telephone)
             const porteurCreated = await this.porteurRepository.create(porteur);
             const institution = await this.institutionService.findOne(register.institutionId);
             if(porteurCreated)

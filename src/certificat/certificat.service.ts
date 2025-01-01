@@ -111,7 +111,7 @@ export class CertificatService {
 
     ctx.fillStyle = '#000000';
     ctx.font = 'bold 28px "Trebuchet MS", sans-serif';
-    ctx.fillText('"Introduction to Machine Learning"', canvasWidth / 2, 440);
+    ctx.fillText(certificate.nom, canvasWidth / 2, 440);
 
     // Texte sur la plateforme
     ctx.font = '20px "Verdana", sans-serif';
