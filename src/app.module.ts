@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CertificatModule } from './certificat/certificat.module';
-import { CodeQrModule } from './code-qr/code-qr.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Certificat } from './certificat/entities/certificat.entity';
-import { CodeQr } from './code-qr/entities/code-qr.entity';
 import { ImageCertificat } from './image-certificat/entities/image-certificat.entity';
 import { Porteur } from './porteur/entities/porteur.entity';
 import { Institution } from './institution/entities/institution.entity';
@@ -35,11 +33,11 @@ import refreshJwtConfig from './config/refresh-jwt.config';
       username:'root',
       password:'',
       database:'certificat_validation',
-      entities:[Certificat,CodeQr, ImageCertificat, Porteur, Institution,Utilisateur],
+      entities:[Certificat, ImageCertificat, Porteur, Institution,Utilisateur],
       synchronize:true,
       dropSchema:false
     })
-    ,CertificatModule, CodeQrModule, ImageCertificatModule, PorteurModule, InstitutionModule, UtilisateurModule, AuthModule,
+    ,CertificatModule, ImageCertificatModule, PorteurModule, InstitutionModule, UtilisateurModule, AuthModule,
     ConfigModule.forRoot({
       cache : true,
       isGlobal: true,
