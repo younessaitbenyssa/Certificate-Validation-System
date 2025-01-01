@@ -24,7 +24,6 @@ export class Certificat {
     institution:Institution
 
     @OneToOne(()=>ImageCertificat,imageCertificat=>imageCertificat.certificat)
-    @JoinColumn()
     imageCertificat:ImageCertificat;
 
 }
