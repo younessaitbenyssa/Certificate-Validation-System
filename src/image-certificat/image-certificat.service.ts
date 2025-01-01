@@ -34,7 +34,7 @@ export class ImageCertificatService {
     if (!fs.existsSync(absolutePath)) {
       throw new NotFoundException('PDF file not found');
     }
-    res.send(absolutePath);
+    res.sendFile(absolutePath);
 
    
   }
