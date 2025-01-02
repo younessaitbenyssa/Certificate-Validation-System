@@ -1,12 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
 import { Porteur } from "src/porteur/entities/porteur.entity";
-import { ImageCertificat } from "src/image-certificat/entities/image-certificat.entity";
 import { Institution } from "src/institution/entities/institution.entity";
 
 @Entity()
 export class Certificat {
 
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryColumn('uuid')
     id: string;
     
     @Column()
@@ -14,6 +13,9 @@ export class Certificat {
 
     @Column()
     dateEmission:Date;
+
+    @Column('longtext')
+    imageSVG:string;
 
     @ManyToOne(() => Porteur, (porteur) => porteur.certificates)
     @JoinColumn()
@@ -23,7 +25,5 @@ export class Certificat {
     @JoinColumn()
     institution:Institution
 
-    @OneToOne(()=>ImageCertificat,imageCertificat=>imageCertificat.certificat)
-    imageCertificat:ImageCertificat;
 
 }
