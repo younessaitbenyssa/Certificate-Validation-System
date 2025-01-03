@@ -8,13 +8,15 @@ import { UtilisateurRole } from 'src/enums/utilisateur-role.enum';
 import { Roles } from 'src/roles.decorator';
 
 
-//@UseGuards(AuthGuard,RolesGuard)
+
+@UseGuards(AuthGuard,RolesGuard)
 @Controller('certificat')
 export class CertificatController {
   constructor(private readonly certificatService: CertificatService) {}
 
 
-  //@Roles(UtilisateurRole.INSTITUTION)
+  @Roles(UtilisateurRole.INSTITUTION)
+
   @Post()
   async create(@Body(ValidationPipe) createCertificatDto: CreateCertificatDto) {
     return await this.certificatService.create(createCertificatDto);
