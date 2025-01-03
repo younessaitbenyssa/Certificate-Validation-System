@@ -8,12 +8,13 @@ import { UtilisateurRole } from 'src/enums/utilisateur-role.enum';
 import { Roles } from 'src/roles.decorator';
 
 
-//@UseGuards(AuthGuard,RolesGuard)
+
 @Controller('certificat')
 export class CertificatController {
   constructor(private readonly certificatService: CertificatService) {}
 
 
+  @UseGuards(AuthGuard,RolesGuard)
   @Roles(UtilisateurRole.INSTITUTION)
   @Post()
   async create(@Body(ValidationPipe) createCertificatDto: CreateCertificatDto) {
@@ -21,7 +22,9 @@ export class CertificatController {
   }
 
 
+  @UseGuards(AuthGuard,RolesGuard)
   @Roles(UtilisateurRole.INSTITUTION)
+  
   @Get()
   findAll() {
     return this.certificatService.findAll();
@@ -33,6 +36,7 @@ export class CertificatController {
   }
 
 
+  @UseGuards(AuthGuard,RolesGuard)
   @Roles(UtilisateurRole.INSTITUTION)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCertificatDto: UpdateCertificatDto) {
@@ -41,6 +45,7 @@ export class CertificatController {
 
 
 
+  @UseGuards(AuthGuard,RolesGuard)
   @Roles(UtilisateurRole.INSTITUTION)
   @Delete(':id')
   remove(@Param('id') id: string) {
