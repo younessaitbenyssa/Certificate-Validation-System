@@ -14,7 +14,7 @@ export class CertificatController {
   constructor(private readonly certificatService: CertificatService) {}
 
 
-  //@Roles(UtilisateurRole.INSTITUTION)
+  @Roles(UtilisateurRole.INSTITUTION)
   @Post()
   async create(@Body(ValidationPipe) createCertificatDto: CreateCertificatDto) {
     return await this.certificatService.create(createCertificatDto);

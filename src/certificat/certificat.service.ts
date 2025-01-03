@@ -10,6 +10,7 @@ import * as QRCode from 'qrcode';
 import { createCanvas, loadImage } from 'canvas';
 import { v4 as uuidv4 } from 'uuid';
 
+
 @Injectable()
 export class CertificatService {
 
@@ -17,6 +18,7 @@ export class CertificatService {
   constructor(
     private porteurService : PorteurService,
     private instService: InstitutionService,
+
     @InjectRepository(Certificat) private readonly certeficatRepository: Repository<Certificat>
 
   ){}
@@ -146,7 +148,7 @@ export class CertificatService {
     const svgContent = canvas.toBuffer().toString(); // No need for a string format, just call toBuffer()
     
     return svgContent;
-
+    
   }
 
   
