@@ -24,6 +24,4 @@ export class Certificat {
     @ManyToOne(()=>Institution,institution=>institution.certificat)
     @JoinColumn()
     institution:Institution
-
-
 }

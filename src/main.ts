@@ -8,9 +8,16 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
   app.enableCors({
-    origin: ['https://9929-41-140-60-37.ngrok-free.app'], // Allow specific origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-    credentials: true, // Include cookies if needed
+    origin: ['https://9929-41-140-60-37.ngrok-free.app'], 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    credentials: true, 
+  });
+
+
+  app.enableCors({
+    origin: 'http://localhost:8080', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
   });
 
   app.useGlobalPipes(new ValidationPipe())
@@ -27,7 +34,6 @@ async function bootstrap() {
 
 
   await app.listen(process.env.PORT ?? 3000);
-
-  
 }
+
 bootstrap();

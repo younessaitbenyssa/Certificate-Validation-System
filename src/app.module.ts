@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from './config/config';
 import { JwtModule } from '@nestjs/jwt';
+import refreshJwtConfig from './config/refresh-jwt.config';
 
 
 @Module({
@@ -38,7 +39,7 @@ import { JwtModule } from '@nestjs/jwt';
     ConfigModule.forRoot({
       cache : true,
       isGlobal: true,
-      load: [config]
+      load: [config, refreshJwtConfig]
     }),
     JwtModule.registerAsync({
       imports: [ConfigModule],

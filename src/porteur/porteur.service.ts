@@ -19,7 +19,7 @@ export class PorteurService {
 
   async findAllPorteur():Promise<Porteur[]> {
     return this.porteurRepository.find({
-      relations : ['certificates'] // we can use that or we can do that also : relations:{certificates : {institution:true}}
+      relations : ['certificates'] // we can use that or we can do that also : relations:{certificates : {institution:true}} this is useless bullshit
     });
   }
 
