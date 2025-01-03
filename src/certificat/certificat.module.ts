@@ -7,7 +7,6 @@ import { PorteurService } from 'src/porteur/porteur.service';
 import { InstitutionService } from 'src/institution/institution.service';
 import { Porteur } from 'src/porteur/entities/porteur.entity';
 import { Institution } from 'src/institution/entities/institution.entity';
-import { ImageCertificatService } from 'src/image-certificat/image-certificat.service';
 import { ImageCertificat } from 'src/image-certificat/entities/image-certificat.entity';
 
 
@@ -15,6 +14,6 @@ import { ImageCertificat } from 'src/image-certificat/entities/image-certificat.
 @Module({
   imports:[TypeOrmModule.forFeature([Certificat,Porteur,Institution,ImageCertificat])],
   controllers: [CertificatController],
-  providers: [CertificatService, PorteurService, InstitutionService,ImageCertificatService],
+  providers: [CertificatService, PorteurService, InstitutionService],
 })
 export class CertificatModule {}

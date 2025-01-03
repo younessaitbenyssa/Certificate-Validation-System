@@ -11,7 +11,7 @@ import * as PDFDocument from 'pdfkit';
 import { createCanvas, loadImage } from 'canvas';
 import { createWriteStream } from 'fs';
 import { ImageCertificat } from 'src/image-certificat/entities/image-certificat.entity';
-import { ImageCertificatService } from 'src/image-certificat/image-certificat.service';
+
 
 @Injectable()
 export class CertificatService {
@@ -20,7 +20,7 @@ export class CertificatService {
   constructor(
     private porteurService : PorteurService,
     private instService: InstitutionService,
-    private imageService:ImageCertificatService,
+    
     @InjectRepository(Certificat) private readonly certeficatRepository: Repository<Certificat>
 
   ){}
@@ -157,7 +157,6 @@ export class CertificatService {
     const certificateImage:ImageCertificat =new ImageCertificat();
     certificateImage.Url=pdfPath
     certificateImage.certificat = certificate
-    this.imageService.create(certificateImage)
     console.log('Certificate PDF saved at:', pdfPath);
 
   }
