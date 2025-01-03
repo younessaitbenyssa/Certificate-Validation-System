@@ -72,4 +72,33 @@ export class AuthService {
         return utilisateurDto;
 
     }
+
+    async refreshToken(oldRefreshToken: string): Promise<{ accessToken: string }> {
+        try {
+
+            const decodedToken = this.jwtService.decode(oldRefreshToken);
+            console.log('Decoded Token:', decodedToken);
+            
+
+          const payload = await this.jwtService.verifyAsync(oldRefreshToken, {
+            secret: this.refreshTokenConfig.secret,
+          });
+
+      
+          const user = await this.utilisateurService.findByEmail(payload.email);
+          if (!user) throw new UnauthorizedException();
+
+          
+      
+          const roles = Array.isArray(user.role) ? user.role : [user.role];
+          const newPayload = { sub: user.id, email: user.email, roles };
+      
+          const newAccessToken = this.jwtService.sign(newPayload);
+      
+          return { accessToken: newAccessToken};
+        } catch (err) {
+          throw new UnauthorizedException('Invalid or expired refresh token');
+        }
+      }
+      
 }

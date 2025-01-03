@@ -10,23 +10,28 @@ import { RolesGuard } from 'src/roles/roles.guard';
 
 
 
-/* @UseGuards(AuthGuard,RolesGuard)
-@Roles(UtilisateurRole.INSTITUTION) */
+@UseGuards(AuthGuard,RolesGuard)
+
+
 @Controller('institution')
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
 
+
+  @Roles(UtilisateurRole.ADMIN)
   @Post()
   async create(@Body(ValidationPipe) createInstitutionDto: CreateInstitutionDto) : Promise<Institution> {
     return this.institutionService.create(createInstitutionDto);
   }
 
-  
+  @Roles(UtilisateurRole.ADMIN)
   @Get()
   findAll(): Promise<Institution[]> {
     return this.institutionService.findAll();
   }
 
+
+  @Roles(UtilisateurRole.INSTITUTION)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.institutionService.findOne(id);
