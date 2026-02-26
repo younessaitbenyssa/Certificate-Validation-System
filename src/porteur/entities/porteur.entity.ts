@@ -11,15 +11,13 @@ export class Porteur {
     @Column()
     name: string;
 
-
     @Column()
     telephone: string;
 
     @OneToMany(() => Certificat, (Certificat) => Certificat.porteur)
     certificates : Certificat[];
 
-
-    @OneToOne(()=>Utilisateur,(utilisateur)=>utilisateur.porteur)
+    @OneToOne(() => Utilisateur,(utilisateur)=>utilisateur.porteur)
     @JoinColumn()
     utilisateur:Utilisateur;
 }
